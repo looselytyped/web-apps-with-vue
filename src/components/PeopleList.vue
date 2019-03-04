@@ -39,6 +39,7 @@ export default {
   methods: {
     like(friend) {
       friend.fav = !friend.fav;
+      axios.put(`http://localhost:3000/friends/${friend.id}`, friend);
     }
   },
   mounted() {
