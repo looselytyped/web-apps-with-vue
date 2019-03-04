@@ -7,9 +7,11 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "server": "json-server --watch server/api/db.json"
   },
   "dependencies": {
+    "json-server": "^0.14.2",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuetify": "^1.3.0"
