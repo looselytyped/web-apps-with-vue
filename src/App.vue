@@ -39,19 +39,7 @@
       ></v-toolbar-side-icon>
     </v-toolbar>
     <v-content>
-      <v-container fluid>
-        <v-layout align-center justify-center>
-          <v-flex xs10>
-            <v-card>
-              <v-card-text>
-                <v-layout row wrap>
-                  <hello-world></hello-world>
-                </v-layout>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <PeopleList></PeopleList>
     </v-content>
     <v-footer :inset="true" app>
       <span class="px-3">
@@ -62,11 +50,11 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import PeopleList from "./components/PeopleList";
 
 export default {
   components: {
-    HelloWorld
+    PeopleList
   },
   data: () => ({
     primaryDrawer: {
