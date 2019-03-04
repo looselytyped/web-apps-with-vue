@@ -4,22 +4,12 @@
       <v-flex grow pa-1>
         <v-card>
           <v-list header>
-            <template v-for="(friend, index) in friends">
-              <v-list-tile :key="friend.id" avatar ripple @click="like(friend)">
-                <v-list-tile-content>
-                  <v-list-tile-title
-                    >{{ friend.firstName }}
-                    {{ friend.lastName }}</v-list-tile-title
-                  >
-                </v-list-tile-content>
-
-                <v-list-tile-action>
-                  <v-icon :color="friend.fav ? 'red' : 'grey'">favorite</v-icon>
-                </v-list-tile-action>
-              </v-list-tile>
-              <!-- eslint-disable-next-line vue/valid-v-for -->
-              <v-divider v-if="index + 1 < friends.length"></v-divider>
-            </template>
+            <PersonItem
+              v-for="(friend, index) in friends"
+              :key="friend.id"
+              :friend="friend"
+              :last="index + 1 < friends.length"
+            ></PersonItem>
           </v-list>
         </v-card>
       </v-flex>
@@ -31,6 +21,8 @@
 </template>
 
 <script>
+import PersonItem from "./PersonItem";
+
 const friends = [
   {
     id: 1,
@@ -63,6 +55,9 @@ const friends = [
 ];
 
 export default {
+  components: {
+    PersonItem
+  },
   data: () => {
     return {
       friends
