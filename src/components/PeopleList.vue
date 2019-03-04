@@ -9,6 +9,7 @@
               :key="friend.id"
               :friend="friend"
               :last="index + 1 < friends.length"
+              @notify-parent="like"
             ></PersonItem>
           </v-list>
         </v-card>

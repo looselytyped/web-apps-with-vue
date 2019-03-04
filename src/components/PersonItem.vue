@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-list-tile :key="friend.id" avatar ripple @click="like(friend)">
+    <v-list-tile
+      :key="friend.id"
+      avatar
+      ripple
+      @click.stop="notifyParent(friend)"
+    >
       <v-list-tile-content>
         <v-list-tile-title v-text="fullName"></v-list-tile-title>
       </v-list-tile-content>
@@ -17,8 +22,8 @@
 export default {
   props: ["friend", "last"],
   methods: {
-    like(friend) {
-      friend.fav = !friend.fav;
+    notifyParent(friend) {
+      this.$emit("notify-parent", friend);
     }
   },
   computed: {
