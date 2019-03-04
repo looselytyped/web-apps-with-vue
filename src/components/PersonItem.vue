@@ -2,9 +2,7 @@
   <div>
     <v-list-tile :key="friend.id" avatar ripple @click="like(friend)">
       <v-list-tile-content>
-        <v-list-tile-title>
-          {{ friend.firstName }} {{ friend.lastName }}
-        </v-list-tile-title>
+        <v-list-tile-title v-text="fullName"></v-list-tile-title>
       </v-list-tile-content>
 
       <v-list-tile-action>
@@ -21,6 +19,11 @@ export default {
   methods: {
     like(friend) {
       friend.fav = !friend.fav;
+    }
+  },
+  computed: {
+    fullName() {
+      return `${this.friend.firstName} ${this.friend.lastName}`;
     }
   }
 };
