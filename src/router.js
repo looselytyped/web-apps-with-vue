@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Dashboard from "@/components/Dashboard";
 import PeopleList from "@/components/PeopleList";
 import People from "@/views/People";
+import AddFriend from "@/components/AddFriend";
 
 Vue.use(Router);
 
@@ -17,13 +18,17 @@ export default new Router({
     },
     {
       path: "/people",
-      name: "People",
       component: People,
       children: [
         {
           path: "",
           name: "People",
           component: PeopleList
+        },
+        {
+          path: "add",
+          name: "AddFriend",
+          component: AddFriend
         }
       ]
     },
