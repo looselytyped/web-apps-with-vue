@@ -19,7 +19,7 @@
       <v-list dense>
         <template v-for="(item, i) in items">
           <v-divider dark v-if="item.divider" class="my-3" :key="i"></v-divider>
-          <v-list-tile :key="i" v-else>
+          <v-list-tile :key="i" v-else :to="{ name: item.routeName }">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -39,7 +39,7 @@
       ></v-toolbar-side-icon>
     </v-toolbar>
     <v-content>
-      <PeopleList></PeopleList>
+      <router-view />
     </v-content>
     <v-footer :inset="true" app>
       <span class="px-3">
@@ -50,20 +50,15 @@
 </template>
 
 <script>
-import PeopleList from "./components/PeopleList";
-
 export default {
-  components: {
-    PeopleList
-  },
   data: () => ({
     primaryDrawer: {
       model: null,
       type: "default (no property)"
     },
     items: [
-      { icon: "dashboard", text: "Dashboard" },
-      { icon: "contacts", text: "Contacts" },
+      { icon: "dashboard", text: "Dashboard", routeName: "Dashboard" },
+      { icon: "contacts", text: "Contacts", routeName: "People" },
       { divider: true },
       { icon: "notes", text: "Journal" }
     ]
