@@ -16,12 +16,7 @@
       required
     ></v-text-field>
 
-    <v-checkbox
-      v-model="selectedFriend.fav"
-      label="Fav?"
-      id="fav"
-      required
-    ></v-checkbox>
+    <v-checkbox v-model="selectedFriend.fav" label="Fav?" id="fav"></v-checkbox>
 
     <v-radio-group v-model="selectedFriend.gender" id="gender" row>
       <v-radio label="Male" :value="genders.male"></v-radio>
@@ -58,7 +53,7 @@ export default {
   },
   data() {
     return {
-      valid: true,
+      valid: false,
       selectedFriend: {
         firstName: "",
         lastName: "",
