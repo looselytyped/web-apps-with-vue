@@ -138,4 +138,19 @@ describe("PersonItem", () => {
     expect(e).toBeTruthy();
     expect(e.length).toBe(1);
   });
+
+  it("should render correctly", () => {
+    const wrapper = mount(PersonItem, {
+      propsData: {
+        friend: {
+          id: 1,
+          firstName: "Raju",
+          lastName: "Gandhi",
+          fav: true
+        },
+        last: true
+      }
+    });
+    expect(wrapper.element).toMatchSnapshot();
+  });
 });
