@@ -19,7 +19,12 @@
       <v-list dense>
         <template v-for="(item, i) in items">
           <v-divider dark v-if="item.divider" class="my-3" :key="i"></v-divider>
-          <v-list-tile :key="i" v-else :to="{ name: item.routeName }">
+          <v-list-tile
+            :key="i"
+            v-else
+            :to="{ name: item.routeName }"
+            :id="item.text.toLowerCase()"
+          >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>

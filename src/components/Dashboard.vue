@@ -1,8 +1,8 @@
 <template>
-  <v-container grid-list-xl fluid>
+  <v-container grid-list-xl fluid id="dashboard-container">
     <v-layout row wrap>
       <v-flex lg3 sm6 xs12>
-        <v-card>
+        <v-card id="friends">
           <v-card-text class="pa-0">
             <v-container class="pa-0">
               <div class="layout row ma-0">
@@ -21,7 +21,7 @@
         </v-card>
       </v-flex>
       <v-flex lg3 sm6 xs12>
-        <v-card>
+        <v-card id="favs">
           <v-card-text class="pa-0">
             <v-container class="pa-0">
               <div class="layout row ma-0">
