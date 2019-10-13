@@ -9,6 +9,7 @@
               :key="friend.id"
               :friend="friend"
               :last="index === friends.length - 1"
+              @friend-liked="like"
             ></PersonItem>
           </v-list>
         </v-card>
