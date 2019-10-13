@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "vue": "^2.6.6",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuetify": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
@@ -26,7 +27,11 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "sass": "^1.17.4",
+    "sass-loader": "^7.1.0",
+    "vue-cli-plugin-vuetify": "^1.0.1",
+    "vue-template-compiler": "^2.5.21",
+    "vuetify-loader": "^1.2.2"
   },
   "eslintConfig": {
     "root": true,
