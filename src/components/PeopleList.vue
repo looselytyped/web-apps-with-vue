@@ -22,38 +22,8 @@
 </template>
 
 <script>
+import axios from "axios";
 import PersonItem from "./PersonItem";
-
-const friends = [
-  {
-    id: 1,
-    firstName: "Michelle",
-    lastName: "Mulroy",
-    gender: "female",
-    fav: true
-  },
-  {
-    id: 2,
-    firstName: "Venkat",
-    lastName: "Subramanian",
-    gender: "male",
-    fav: true
-  },
-  {
-    id: 3,
-    firstName: "Matt",
-    lastName: "Forsythe",
-    gender: "none",
-    fav: false
-  },
-  {
-    id: 4,
-    firstName: "Nate",
-    lastName: "Schutta",
-    gender: "male",
-    fav: false
-  }
-];
 
 export default {
   components: {
@@ -61,13 +31,17 @@ export default {
   },
   data: () => {
     return {
-      friends
+      friends: []
     };
   },
   methods: {
     like(friend) {
       friend.fav = !friend.fav;
     }
+  },
+  async mounted() {
+    const resp = await axios.get("http://localhost:3000/friends");
+    this.friends = resp.data;
   }
 };
 </script>
