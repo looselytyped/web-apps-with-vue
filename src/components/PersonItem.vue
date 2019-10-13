@@ -3,7 +3,7 @@
     <v-list-item :key="friend.id">
       <v-list-item-content>
         <v-list-item-title>
-          {{ friend.firstName }} {{ friend.lastName }}
+          {{ fullName }}
         </v-list-item-title>
       </v-list-item-content>
 
@@ -39,6 +39,11 @@ export default {
     like() {
       // TODO: Do NOT modify props! Fix this
       this.friend.fav = !this.friend.fav;
+    }
+  },
+  computed: {
+    fullName() {
+      return `${this.friend.firstName} ${this.friend.lastName}`;
     }
   }
 };
