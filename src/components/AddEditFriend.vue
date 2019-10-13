@@ -29,7 +29,7 @@
       <v-radio label="Undisclosed" :value="genders.undisclosed"></v-radio>
     </v-radio-group>
 
-    <v-btn class="ma-2" color="error" @click="reset">
+    <v-btn color="error" class="ma-2" @click="reset" v-if="!editing">
       Reset Form
     </v-btn>
 
@@ -51,6 +51,11 @@
 import axios from "axios";
 
 export default {
+  props: {
+    friendId: {
+      type: Number
+    }
+  },
   data() {
     return {
       valid: true,
@@ -65,7 +70,8 @@ export default {
         female: "female",
         undisclosed: "undisclosed"
       },
-      nameRules: [v => !!v || "Name is required"]
+      nameRules: [v => !!v || "Name is required"],
+      editing: false
     };
   },
   methods: {
@@ -76,8 +82,24 @@ export default {
       const submission = {
         ...this.selectedFriend
       };
-      await axios.post("http://localhost:3000/friends", submission);
+      if (this.editing) {
+        await axios.put(
+          `http://localhost:3000/friends/${submission.id}`,
+          submission
+        );
+      } else {
+        await axios.post("http://localhost:3000/friends", submission);
+      }
       this.$router.push({ name: "People" });
+    }
+  },
+  async mounted() {
+    if (this.friendId) {
+      const editItem = await axios.get(
+        `http://localhost:3000/friends/${this.friendId}`
+      );
+      this.editing = true;
+      this.selectedFriend = editItem.data;
     }
   }
 };

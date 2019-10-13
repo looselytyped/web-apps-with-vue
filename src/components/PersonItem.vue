@@ -9,8 +9,10 @@
 
       <div class="flex-grow-1"></div>
 
-      <v-btn icon>
-        <v-icon class="edit">mdi-pencil</v-icon>
+      <v-btn icon @click.stop="itemEdited(friend)">
+        <v-icon class="edit">
+          mdi-pencil
+        </v-icon>
       </v-btn>
       <v-btn icon @click.stop="like()">
         <v-icon class="fav" :color="friend.fav ? 'red' : 'grey'">
@@ -39,6 +41,9 @@ export default {
     like() {
       // TODO: Do NOT modify props! Fix this
       this.$emit("friend-liked", this.friend);
+    },
+    itemEdited(friend) {
+      this.$emit("friend-edited", friend);
     }
   },
   computed: {

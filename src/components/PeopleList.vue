@@ -9,6 +9,7 @@
             :friend="friend"
             :last="index === friends.length - 1"
             @friend-liked="like"
+            @friend-edited="edit"
           ></PersonItem>
         </v-list>
       </v-card>
