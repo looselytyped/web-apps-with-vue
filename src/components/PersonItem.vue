@@ -38,7 +38,7 @@ export default {
   methods: {
     like() {
       // TODO: Do NOT modify props! Fix this
-      this.friend.fav = !this.friend.fav;
+      this.$emit("friend-liked", this.friend);
     }
   },
   computed: {
