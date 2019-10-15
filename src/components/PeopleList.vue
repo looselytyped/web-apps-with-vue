@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { friendService } from "@/api/friend.service";
 import PersonItem from "./PersonItem";
 
 export default {
@@ -38,9 +38,7 @@ export default {
   methods: {
     async like(friend) {
       friend.fav = !friend.fav;
-      await axios.patch(`http://localhost:3000/friends/${friend.id}`, {
-        fav: friend.fav
-      });
+      await friendService.patchFavorite(friend.id, { fav: friend.fav });
     },
     edit(friend) {
       this.$router.push({
@@ -50,7 +48,7 @@ export default {
     }
   },
   async mounted() {
-    const resp = await axios.get("http://localhost:3000/friends");
+    const resp = await friendService.getAll();
     this.friends = resp.data;
   }
 };

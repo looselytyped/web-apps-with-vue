@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { friendService } from "@/api/friend.service";
 
 export default {
   data: () => {
@@ -58,7 +58,7 @@ export default {
     }
   },
   async mounted() {
-    const resp = await axios.get("http://localhost:3000/friends");
+    const resp = await friendService.getAll();
     this.friends = resp.data;
   }
 };
