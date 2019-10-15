@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { friendService } from "@/api/friend.service";
 
 export default {
   props: {
@@ -83,23 +83,18 @@ export default {
         ...this.selectedFriend
       };
       if (this.editing) {
-        await axios.put(
-          `http://localhost:3000/friends/${submission.id}`,
-          submission
-        );
+        await friendService.update(submission);
       } else {
-        await axios.post("http://localhost:3000/friends", submission);
+        await friendService.create(submission);
       }
       this.$router.push({ name: "People" });
     }
   },
   async mounted() {
     if (this.friendId) {
-      const editItem = await axios.get(
-        `http://localhost:3000/friends/${this.friendId}`
-      );
+      const resp = await friendService.get(this.friendId);
       this.editing = true;
-      this.selectedFriend = editItem.data;
+      this.selectedFriend = resp.data;
     }
   }
 };
