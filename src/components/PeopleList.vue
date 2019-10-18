@@ -15,7 +15,12 @@
       </v-card>
     </v-flex>
     <v-flex shrink pa-1>
-      <v-btn color="success" large :to="{ name: 'AddEditFriend' }">
+      <v-btn
+        id="add-friend"
+        color="success"
+        large
+        :to="{ name: 'AddEditFriend' }"
+      >
         Add Friend
       </v-btn>
     </v-flex>
