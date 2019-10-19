@@ -9283,6 +9283,16 @@ querystringify@^2.1.1:
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
   integrity sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==
 
+ramda.clone@^0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/ramda.clone/-/ramda.clone-0.26.1.tgz#c1dc3770ff3949598ca2d4ac3638bf5bdb68122e"
+  integrity sha512-cv5/cFu93d33JYIzSeIb3qiGa1bcDeSmNw2GrSNJeO1G9IBnYvEP07S+egvo/MWoST7RB/JX9UeVXVt4sRB6BQ==
+
+ramda.merge@^0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/ramda.merge/-/ramda.merge-0.26.1.tgz#12dc7716f9e978b68d8c7e66b9cd634dd7c9f58f"
+  integrity sha512-l7pewFXR4pvVq4npwciQbC2EdKkyKVdEkJwflzyWLZvSxBCvDPku40Dzy/7/uOVNKsseraVBnAl5aiWTsFCXhQ==
+
 randomatic@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.1.tgz#b776efc59375984e36c537b2f51a1f0aff0da1ed"
