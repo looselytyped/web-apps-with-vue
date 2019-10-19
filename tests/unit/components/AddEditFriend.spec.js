@@ -45,10 +45,27 @@ const createStore = overrides => {
   return new Vuex.Store(merge(defaultStoreConfig, overrides));
 };
 
-describe("AddEditFriend", () => {
-  let localVue;
-  let vuetify;
+let localVue;
+let vuetify;
+const createWrapper = (mountOptions, storeOptions) => {
+  const store = createStore(storeOptions);
+  const options = merge(
+    {
+      localVue,
+      vuetify,
+      store,
+      stubs: {
+        RouterLink: RouterLinkStub
+      },
+      sync: false
+    },
+    mountOptions
+  );
+  const wrapper = mount(AddEditFriend, options);
+  return { wrapper, store };
+};
 
+describe("AddEditFriend", () => {
   beforeEach(() => {
     localVue = createLocalVue();
     vuetify = new Vuetify();
@@ -59,14 +76,7 @@ describe("AddEditFriend", () => {
     it("first/last name are required", async () => {
       expect.assertions(2);
 
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        stubs: {
-          RouterLink: RouterLinkStub
-        },
-        sync: false
-      });
+      const { wrapper } = createWrapper();
 
       const firstName = wrapper.find("input#firstName");
       expect(firstName.attributes().required).toBeTruthy();
@@ -78,14 +88,7 @@ describe("AddEditFriend", () => {
     it("should be valid after all required fields are input", async () => {
       expect.assertions(2);
 
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        stubs: {
-          RouterLink: RouterLinkStub
-        },
-        sync: false
-      });
+      const { wrapper } = createWrapper();
 
       const firstName = wrapper.find("#firstName");
       firstName.setValue("Raju");
@@ -103,14 +106,7 @@ describe("AddEditFriend", () => {
     it("the form should be invalid at the start", async () => {
       expect.assertions(1);
 
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        stubs: {
-          RouterLink: RouterLinkStub
-        },
-        sync: false
-      });
+      const { wrapper } = createWrapper();
 
       expect(wrapper.vm.$refs.form.validate()).toBe(false);
     });
@@ -118,21 +114,12 @@ describe("AddEditFriend", () => {
     it("should invoke the service to create a new friend", async () => {
       expect.assertions(1);
 
-      const $router = {
-        push: jest.fn()
-      };
-      const store = createStore();
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        store,
-        stubs: {
-          RouterLink: RouterLinkStub
-        },
+      const { wrapper, store } = createWrapper({
         mocks: {
-          $router
-        },
-        sync: false
+          $router: {
+            push: jest.fn()
+          }
+        }
       });
 
       const firstName = wrapper.find("input#firstName");
@@ -157,18 +144,10 @@ describe("AddEditFriend", () => {
 
   describe("Edit Friend", () => {
     it("should be in 'editing' mode when supplied a prop", async () => {
-      const store = createStore();
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        store,
-        stubs: {
-          RouterLink: RouterLinkStub
-        },
+      const { wrapper } = createWrapper({
         propsData: {
           friendId: 10
-        },
-        sync: false
+        }
       });
 
       await wrapper.vm.$nextTick();
@@ -176,7 +155,7 @@ describe("AddEditFriend", () => {
     });
 
     it("should invoke the service to get the friend when mounted", async () => {
-      const store = createStore({
+      const storeOptions = {
         getters: {
           friendById: () => () => {
             return {
@@ -188,19 +167,15 @@ describe("AddEditFriend", () => {
             };
           }
         }
-      });
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        store,
-        stubs: {
-          RouterLink: RouterLinkStub
+      };
+      const { wrapper } = createWrapper(
+        {
+          propsData: {
+            friendId: 10
+          }
         },
-        propsData: {
-          friendId: 1
-        },
-        sync: false
-      });
+        storeOptions
+      );
 
       await wrapper.vm.$nextTick();
       expect(wrapper.vm.selectedFriend.firstName).toBe("John");
@@ -209,10 +184,7 @@ describe("AddEditFriend", () => {
     it("should invoke the service to update an existing friend", async () => {
       expect.assertions(3);
 
-      const $router = {
-        push: jest.fn()
-      };
-      const store = createStore({
+      const storeOptions = {
         getters: {
           friendById: () => () => {
             return {
@@ -224,23 +196,19 @@ describe("AddEditFriend", () => {
             };
           }
         }
-      });
+      };
 
-      const wrapper = mount(AddEditFriend, {
-        localVue,
-        vuetify,
-        store,
-        stubs: {
-          RouterLink: RouterLinkStub
+      const { wrapper, store } = createWrapper(
+        {
+          propsData: {
+            friendId: 1
+          },
+          mocks: {
+            $router: { push: jest.fn() }
+          }
         },
-        propsData: {
-          friendId: 1
-        },
-        mocks: {
-          $router
-        },
-        sync: false
-      });
+        storeOptions
+      );
 
       jest.spyOn(store, "dispatch");
 
