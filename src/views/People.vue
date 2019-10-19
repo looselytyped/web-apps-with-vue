@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid id="people-container">
     <router-view />
   </v-container>
 </template>
