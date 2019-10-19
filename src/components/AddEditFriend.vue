@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid">
+  <v-form ref="form" v-model="valid" id="add-friend-form">
     <v-text-field
       v-model="selectedFriend.firstName"
       :rules="nameRules"
