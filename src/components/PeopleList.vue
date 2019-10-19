@@ -8,7 +8,7 @@
             :key="friend.id"
             :friend="friend"
             :last="index === friends.length - 1"
-            @friend-liked="like"
+            @friend-liked="updateFav"
             @friend-edited="edit"
           ></PersonItem>
         </v-list>
@@ -28,33 +28,27 @@
 </template>
 
 <script>
-import { friendService } from "@/api/friend.service";
+import { mapActions, mapState } from "vuex";
 import PersonItem from "./PersonItem";
 
 export default {
   components: {
     PersonItem
   },
-  data: () => {
-    return {
-      friends: []
-    };
-  },
   methods: {
-    async like(friend) {
-      friend.fav = !friend.fav;
-      await friendService.patchFavorite(friend.id, { fav: friend.fav });
+    updateFav(friend) {
+      friend.fav ? this.unlike(friend) : this.like(friend);
     },
     edit(friend) {
       this.$router.push({
         name: "EditFriend",
         params: { friendId: friend.id }
       });
-    }
+    },
+    ...mapActions(["fetchFriends", "like", "unlike"])
   },
-  async mounted() {
-    const resp = await friendService.getAll();
-    this.friends = resp.data;
+  computed: {
+    ...mapState(["friends"])
   }
 };
 </script>

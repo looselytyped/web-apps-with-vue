@@ -13,7 +13,7 @@
                 </div>
                 <div class="sm6 xs6 flex text-sm-center py-3">
                   <div class="headline">Friends</div>
-                  <span class="caption">{{ friends.length }}</span>
+                  <span class="caption">{{ count }}</span>
                 </div>
               </div>
             </v-container>
@@ -44,22 +44,14 @@
 </template>
 
 <script>
-import { friendService } from "@/api/friend.service";
+import { mapGetters } from "vuex";
 
 export default {
-  data: () => {
-    return {
-      friends: []
-    };
-  },
   computed: {
-    favCount() {
-      return this.friends.filter(f => f.fav).length;
-    }
-  },
-  async mounted() {
-    const resp = await friendService.getAll();
-    this.friends = resp.data;
+    ...mapGetters({
+      favCount: "favFriendsCount",
+      count: "friendsCount"
+    })
   }
 };
 </script>
