@@ -1,8 +1,49 @@
 import { mount, createLocalVue, RouterLinkStub } from "@vue/test-utils";
 import Vuetify from "vuetify";
-import { friendService } from "@/api/friend.service";
+import Vuex from "vuex";
+
+import merge from "ramda.merge";
 
 import AddEditFriend from "@/components/AddEditFriend";
+
+const createStore = overrides => {
+  const defaultStoreConfig = {
+    actions: {
+      addFriend: jest.fn(),
+      updateFriend: jest.fn()
+    },
+    getters: {
+      friendById: () => () => {
+        return {
+          id: 1,
+          firstName: "John",
+          lastName: "Doe",
+          gender: "male",
+          fav: false
+        };
+      }
+    },
+    state: {
+      friends: [
+        {
+          id: 1,
+          firstName: "John",
+          lastName: "Doe",
+          gender: "male",
+          fav: false
+        },
+        {
+          id: 2,
+          firstName: "Jane",
+          lastName: "Doe",
+          gender: "female",
+          fav: true
+        }
+      ]
+    }
+  };
+  return new Vuex.Store(merge(defaultStoreConfig, overrides));
+};
 
 describe("AddEditFriend", () => {
   let localVue;
@@ -11,11 +52,7 @@ describe("AddEditFriend", () => {
   beforeEach(() => {
     localVue = createLocalVue();
     vuetify = new Vuetify();
-  });
-
-  afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    localVue.use(Vuex);
   });
 
   describe("Add or Edit", () => {
@@ -84,11 +121,11 @@ describe("AddEditFriend", () => {
       const $router = {
         push: jest.fn()
       };
-      friendService.create = jest.fn();
-
+      const store = createStore();
       const wrapper = mount(AddEditFriend, {
         localVue,
         vuetify,
+        store,
         stubs: {
           RouterLink: RouterLinkStub
         },
@@ -107,8 +144,9 @@ describe("AddEditFriend", () => {
       wrapper.vm.$refs.form.validate();
       await wrapper.vm.$nextTick();
 
+      jest.spyOn(store, "dispatch");
       wrapper.find("button#submit").trigger("click");
-      expect(friendService.create).toBeCalledWith({
+      expect(store.dispatch).toBeCalledWith("addFriend", {
         firstName: "Raju",
         lastName: "Gandhi",
         gender: "male",
@@ -119,11 +157,11 @@ describe("AddEditFriend", () => {
 
   describe("Edit Friend", () => {
     it("should be in 'editing' mode when supplied a prop", async () => {
-      friendService.get = jest.fn().mockReturnValue({ data: {} });
-
+      const store = createStore();
       const wrapper = mount(AddEditFriend, {
         localVue,
         vuetify,
+        store,
         stubs: {
           RouterLink: RouterLinkStub
         },
@@ -138,23 +176,23 @@ describe("AddEditFriend", () => {
     });
 
     it("should invoke the service to get the friend when mounted", async () => {
-      expect.assertions(2);
-
-      friendService.get = jest.fn().mockImplementation(() => {
-        return {
-          data: {
-            id: 1,
-            firstName: "John",
-            lastName: "Doe",
-            gender: "male",
-            fav: false
+      const store = createStore({
+        getters: {
+          friendById: () => () => {
+            return {
+              id: 1,
+              firstName: "John",
+              lastName: "Doe",
+              gender: "male",
+              fav: false
+            };
           }
-        };
+        }
       });
-
       const wrapper = mount(AddEditFriend, {
         localVue,
         vuetify,
+        store,
         stubs: {
           RouterLink: RouterLinkStub
         },
@@ -165,7 +203,6 @@ describe("AddEditFriend", () => {
       });
 
       await wrapper.vm.$nextTick();
-      expect(friendService.get).toBeCalledWith(1);
       expect(wrapper.vm.selectedFriend.firstName).toBe("John");
     });
 
@@ -175,33 +212,37 @@ describe("AddEditFriend", () => {
       const $router = {
         push: jest.fn()
       };
-      friendService.get = jest.fn().mockImplementation(async () => {
-        return {
-          data: {
-            id: 1,
-            firstName: "Mary",
-            lastName: "Jane",
-            gender: "female",
-            fav: true
+      const store = createStore({
+        getters: {
+          friendById: () => () => {
+            return {
+              id: 1,
+              firstName: "Mary",
+              lastName: "Jane",
+              gender: "female",
+              fav: true
+            };
           }
-        };
+        }
       });
-      friendService.update = jest.fn();
 
       const wrapper = mount(AddEditFriend, {
         localVue,
         vuetify,
+        store,
         stubs: {
           RouterLink: RouterLinkStub
-        },
-        mocks: {
-          $router
         },
         propsData: {
           friendId: 1
         },
+        mocks: {
+          $router
+        },
         sync: false
       });
+
+      jest.spyOn(store, "dispatch");
 
       await wrapper.vm.$nextTick();
       await wrapper.vm.$nextTick();
@@ -213,12 +254,12 @@ describe("AddEditFriend", () => {
       wrapper.find("button#submit").trigger("click");
 
       await wrapper.vm.$nextTick();
-      expect(friendService.update).toBeCalledWith({
+      expect(store.dispatch).toBeCalledWith("updateFriend", {
+        id: 1,
         firstName: "Mary",
         lastName: "Jane",
         gender: "female",
-        fav: true,
-        id: 1
+        fav: true
       });
     });
   });
