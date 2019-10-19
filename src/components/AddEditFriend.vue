@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { friendService } from "@/api/friend.service";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -73,23 +73,28 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    async submit() {
+    submit() {
       const submission = {
         ...this.selectedFriend
       };
       if (this.editing) {
-        await friendService.update(submission);
+        this.updateFriend(submission);
       } else {
-        await friendService.create(submission);
+        this.addFriend(submission);
       }
       this.$router.push({ name: "People" });
-    }
+    },
+    ...mapActions(["addFriend", "updateFriend"])
+  },
+  computed: {
+    ...mapGetters({
+      getFriendById: "friendById"
+    })
   },
   async mounted() {
     if (this.friendId) {
-      const resp = await friendService.get(this.friendId);
       this.editing = true;
-      this.selectedFriend = resp.data;
+      this.selectedFriend = this.getFriendById(this.friendId);
     }
   }
 };
