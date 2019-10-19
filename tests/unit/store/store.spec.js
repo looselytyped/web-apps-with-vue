@@ -2,9 +2,14 @@ import { createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 
 import clone from "ramda.clone";
+import merge from "ramda.merge";
 
 import { storeConfig } from "@/store/store-config";
 import { friendService } from "@/api/friend.service";
+
+const createStore = ({ state } = { state: { friends: [] } }) => {
+  return new Vuex.Store(merge(clone(storeConfig), { state: clone(state) }));
+};
 
 describe("Vuex store", () => {
   let localVue;
@@ -25,7 +30,7 @@ describe("Vuex store", () => {
   it("should retrieve all friends", async () => {
     // this.$store.dispatch('fetchFriends')
     expect.assertions(3);
-    const store = new Vuex.Store(clone(storeConfig));
+    const store = createStore();
     friendService.getAll = jest.fn().mockImplementation(async () => {
       return {
         data: friends
@@ -41,8 +46,7 @@ describe("Vuex store", () => {
   it("should correctly 'like' a friend", async () => {
     // this.$store.dispatch('like')
     expect.assertions(3);
-    const store = new Vuex.Store(clone(storeConfig));
-    store.state.friends = friends;
+    const store = createStore({ state: { friends } });
     const likedF3 = {
       ...f3,
       fav: true
@@ -62,8 +66,7 @@ describe("Vuex store", () => {
   it("should correctly 'unlike' a friend", async () => {
     // this.$store.dispatch('unlike')
     expect.assertions(3);
-    const store = new Vuex.Store(clone(storeConfig));
-    store.state.friends = friends;
+    const store = createStore({ state: { friends } });
     const likedF1 = {
       ...f1,
       fav: false
@@ -83,9 +86,7 @@ describe("Vuex store", () => {
   it("should correctly add a friend", async () => {
     // this.$store.dispatch('addFriend')
     expect.assertions(3);
-    const store = new Vuex.Store(clone(storeConfig));
-    store.state.friends = friends;
-
+    const store = createStore({ state: { friends } });
     const newFriend = { firstName: "Jean", lastName: "Kea", fav: true };
     const newFriendWithId = {
       ...newFriend,
@@ -106,8 +107,7 @@ describe("Vuex store", () => {
   it("should correctly update a friend", async () => {
     // this.$store.dispatch('updateFriend')
     expect.assertions(3);
-    const store = new Vuex.Store(clone(storeConfig));
-    store.state.friends = friends;
+    const store = createStore({ state: { friends } });
     const updatedFriend = {
       ...f1,
       lastName: "Willingham"
