@@ -29,6 +29,12 @@ export default new Router({
           path: "add",
           name: "AddEditFriend",
           component: AddEditFriend
+        },
+        {
+          path: ":friendId/edit",
+          name: "EditFriend",
+          component: AddEditFriend,
+          props: true
         }
       ]
     },

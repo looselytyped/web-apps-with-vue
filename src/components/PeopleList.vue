@@ -9,6 +9,7 @@
             :friend="friend"
             :last="index === friends.length - 1"
             @friend-liked="like"
+            @friend-edited="edit"
           ></PersonItem>
         </v-list>
       </v-card>
@@ -39,6 +40,12 @@ export default {
       friend.fav = !friend.fav;
       await axios.patch(`http://localhost:3000/friends/${friend.id}`, {
         fav: friend.fav
+      });
+    },
+    edit(friend) {
+      this.$router.push({
+        name: "EditFriend",
+        params: { friendId: friend.id }
       });
     }
   },
