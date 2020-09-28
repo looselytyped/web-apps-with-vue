@@ -35,8 +35,11 @@ export default {
     };
   },
   methods: {
-    like(friend) {
+    async like(friend) {
       friend.fav = !friend.fav;
+      await axios.patch(`http://localhost:3000/friends/${friend.id}`, {
+        fav: friend.fav
+      });
     }
   },
   async mounted() {
