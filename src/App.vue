@@ -19,7 +19,12 @@
       <v-list dense :nav="true">
         <template v-for="(item, i) in items">
           <v-divider dark v-if="item.divider" class="my-3" :key="i"></v-divider>
-          <v-list-item :key="i" v-else :id="item.text.toLowerCase()">
+          <v-list-item
+            :key="i"
+            v-else
+            :to="{ name: item.routeName }"
+            :id="item.text.toLowerCase()"
+          >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -34,7 +39,7 @@
     </v-navigation-drawer>
 
     <v-main>
-      <PeopleList></PeopleList>
+      <router-view />
     </v-main>
 
     <v-footer app :color="headerFooterColor" class="white--text" :inset="true">
@@ -44,18 +49,13 @@
 </template>
 
 <script>
-import PeopleList from "./components/PeopleList";
-
 export default {
-  components: {
-    PeopleList
-  },
   data: () => ({
     headerFooterColor: "light-green lighten-2",
     drawer: null,
     items: [
-      { icon: "mdi-view-dashboard", text: "Dashboard" },
-      { icon: "mdi-contacts", text: "Contacts" },
+      { icon: "mdi-view-dashboard", text: "Dashboard", routeName: "Dashboard" },
+      { icon: "mdi-contacts", text: "Contacts", routeName: "People" },
       { divider: true },
       { icon: "mdi-message-bulleted", text: "Journal" }
     ]
