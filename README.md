@@ -82,7 +82,7 @@ $ json-server --watch server/api/db.json
 **In the second terminal run**
 
 ```bash
-npm serve # or `yarn serve`
+npm run serve # or `yarn run serve`
 ```
 
 Once the console is settled, visit [http://localhost:8080/](http://localhost:8080/) and you should see a `http://localhost:8080/` with a "Hello" message.
