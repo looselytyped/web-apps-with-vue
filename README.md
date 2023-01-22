@@ -1,5 +1,9 @@
 # FriendsHq
 
+# WARNING: This repository is deprecated, and in read-only mode.
+# Updated repository using Vue 3 can be found [here](https://github.com/looselytyped/web-apps-with-vue3)
+
+
 This is an Vue.js 2+ application.
 It attempts to demonstrate creating a simple web application using Vue.js.
 
